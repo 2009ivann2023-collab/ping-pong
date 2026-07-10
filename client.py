@@ -41,9 +41,12 @@ def receive():
 font_win = font.Font(None, 72)
 font_main = font.Font(None, 36)
 # --- ЗОБРАЖЕННЯ ----
-
+bg_img = transform.scale(image.load("winter-pixel-art-mountain-landscape-in-8-bit-retro-video-game-style-vector-seamless-background-2wnknn2.jpg"), (WIDTH, HEIGHT))
+paddle1_img = transform.scale(image.load("зображення_viber_2026-07-10_18-44-02-001-removebg-preview.png"), (20, 100))
+paddle2_img = transform.scale(image.load("зображення_viber_2026-07-10_18-44-01-939-removebg-preview.png"), (20, 100))
+ball_img = transform.scale(image.load("pixel-bomb-burning-wick-icon-260nw-2056080317-removebg-preview.png"), (20, 20))
 # --- ЗВУКИ ---
-
+wall_hit_sound = mixer.Sound('512 Звукові ефекти (8-бітний стиль).url')
 # --- ГРА ---
 game_over = False
 winner = None
@@ -88,18 +91,28 @@ while True:
         continue  # Блокує гру після перемоги
 
     if game_state:
+
         screen.fill((30, 30, 30))
+        screen.blit(bg_img,(0,0))
+
         draw.rect(screen, (0, 255, 0), (20, game_state['paddles']['0'], 20, 100))
+        screen.blit(paddle1_img,(20, game_state['paddles']['0']))
+
         draw.rect(screen, (255, 0, 255), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
+        screen.blit(paddle1_img, (WIDTH - 40, game_state['paddles']['1']))
+
         draw.circle(screen, (255, 255, 255), (game_state['ball']['x'], game_state['ball']['y']), 10)
+        screen.blit(ball_img, ( game_state['ball']['x'] - 10, game_state['ball']['y'] - 10))
+
         score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
+
         screen.blit(score_text, (WIDTH // 2 -25, 20))
 
         if game_state['sound_event']:
             if game_state['sound_event'] == 'wall_hit':
                 # звук відбиття м'ячика від стін
                 pass
-            if game_state['sound_event'] == 'platform_hit':
+            if game_state['512 Звукові ефекти (8-бітний стиль).url'] == 'platform_hit':
                 # звук відбиття м'ячика від платформи
                 pass
 
